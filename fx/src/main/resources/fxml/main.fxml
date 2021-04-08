@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?scenebuilder-preview-i18n-resource /bundles/MyBundle_en.properties?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane stylesheets="@../css/main.css" fx:controller="pl.horazon.fx.MainControll"
+            xmlns:fx="http://javafx.com/fxml">
+
+    <BorderPane styleClass="BorderPane" AnchorPane.bottomAnchor="0.0"
+                AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <top>
+            <fx:include source="menu-bar.fxml"/>
+        </top>
+
+        <center>
+            <VBox >
+                <ListView fx:id="fxListMsg"/>
+
+                <GridPane>
+                    <TextField fx:id="fxTxtMsg" GridPane.columnIndex="0"/>
+                    <Button fx:id="fxBtnSend" text="%main.btn.send.txt" GridPane.columnIndex="1"
+                            onAction="#onClickSend"/>
+
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                        <ColumnConstraints hgrow="NEVER"/>
+                    </columnConstraints>
+                </GridPane>
+            </VBox>
+        </center>
+
+        <bottom>
+            <HBox>
+                <Label text="statusbar"/>
+            </HBox>
+        </bottom>
+
+        <right>
+            <VBox>
+                <ListView fx:id="fxListUsers"/>
+            </VBox>
+        </right>
+    </BorderPane>
+</AnchorPane>
