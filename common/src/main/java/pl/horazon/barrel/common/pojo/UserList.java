@@ -9,6 +9,6 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class UserList extends Msg{
+public class UserList extends BarrelMsg {
     private List<User> users;
 }

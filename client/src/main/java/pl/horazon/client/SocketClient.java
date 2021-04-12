@@ -1,76 +1,55 @@
 package pl.horazon.client;
 
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.apache.commons.lang3.RandomStringUtils;
 import pl.horazon.barrel.common.pojo.Init;
-import pl.horazon.barrel.common.pojo.Msg;
+import pl.horazon.barrel.common.pojo.BarrelMsg;
+import pl.horazon.barrel.common.thread.CommInThread;
+import pl.horazon.barrel.common.thread.CommOutThread;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
 import java.util.function.Consumer;
 
 public class SocketClient {
 
-    //public ConcurrentLinkedQueue<Msg> queue = new ConcurrentLinkedQueue<Msg>();
-    public LinkedBlockingQueue<Msg> queue = new LinkedBlockingQueue<Msg>();
-    //public SynchronousQueue<Msg> queue = new SynchronousQueue<Msg>();
-
-    //--------------------------------------------------------
-
     private Socket clientSocket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
+
+    private CommInThread commInThread;
+    private CommOutThread commOutThread;
 
     public void startConnection(String ip, int port) throws IOException {
         clientSocket = new Socket(ip, port);
         out = new ObjectOutputStream(clientSocket.getOutputStream());
         in = new ObjectInputStream(clientSocket.getInputStream());
 
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                while(true){
-                    try {
-                    //Msg msg = queue.poll();
-                    Msg msg = queue.take();
+        commOutThread = new CommOutThread(out);
 
-                    out.writeObject(msg);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        };
+        ThreadFactory factory = new ThreadFactoryBuilder()
+                .setNameFormat("task-name-%d")
+                .setDaemon(true)
+                .build();
 
-        Runnable r2 = new Runnable() {
-            @Override
-            public void run() {
-                while(true){
-                    try {
-                        Object line = null;
-                        line = in.readObject();
+        factory.newThread(commOutThread).start();
 
-                        msgConsumer.accept((Msg) line);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        };
+        commInThread = new CommInThread<BarrelMsg>(in, this::handle);
 
-        Thread t = new Thread(r);
-        t.setDaemon(true);
+        factory.newThread(commInThread).start();
 
-        t.start();
+        this.send((new Init("login_" + RandomStringUtils.randomAlphabetic(5))));
+    }
 
-        Thread t2 = new Thread(r2);
-        t2.setDaemon(true);
+    private void handle(BarrelMsg barrelMsg) {
+        msgConsumer.accept((BarrelMsg) barrelMsg);
+    }
 
-        t2.start();
-
-
-        queue.add(new Init("login_" + RandomStringUtils.randomAlphabetic(5)));
+    public void send(BarrelMsg barrelMsg) {
+        commOutThread.getQueue().add(barrelMsg);
     }
 
     public void stopConnection() throws IOException {
@@ -80,9 +59,9 @@ public class SocketClient {
     }
 
 
-    private Consumer<Msg> msgConsumer;
+    private Consumer<BarrelMsg> msgConsumer;
 
-    public void setMsgConsumer(Consumer<Msg> msgConsumer) {
+    public void setMsgConsumer(Consumer<BarrelMsg> msgConsumer) {
         this.msgConsumer = msgConsumer;
     }
 }

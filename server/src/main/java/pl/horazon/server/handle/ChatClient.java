@@ -1,21 +1,21 @@
 package pl.horazon.server.handle;
 
+import com.google.common.collect.ClassToInstanceMap;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.tinylog.Logger;
-import pl.horazon.barrel.common.pojo.Init;
-import pl.horazon.barrel.common.pojo.Msg;
-import pl.horazon.barrel.common.pojo.TestMsg1;
-import pl.horazon.barrel.common.pojo.TestMsg2;
+import pl.horazon.barrel.common.map.ClassToConsumerMap;
+import pl.horazon.barrel.common.pojo.*;
+import pl.horazon.barrel.common.thread.CommInThread;
+import pl.horazon.barrel.common.thread.CommOutThread;
 import pl.horazon.server.SocketServer;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadFactory;
-
+import java.util.function.Consumer;
 
 public class ChatClient {
 
@@ -25,7 +25,6 @@ public class ChatClient {
     private final CommInThread commInThread;
     private final CommOutThread commOutThread;
 
-
     public ChatClient(Socket socket) throws IOException {
 
         Logger.info("Hello World!");
@@ -34,7 +33,9 @@ public class ChatClient {
         this.out = new ObjectOutputStream(socket.getOutputStream());
         this.in = new ObjectInputStream(socket.getInputStream());
 
-        commInThread = new CommInThread(this, in);
+        commInThread = new CommInThread<BarrelMsg>(in, this::handle);
+        commInThread.setEndSignal(EndConnectionBarrelMsg.class);
+
         commOutThread = new CommOutThread(out);
 
         ThreadFactory factory = new ThreadFactoryBuilder()
@@ -44,83 +45,53 @@ public class ChatClient {
 
         factory.newThread(commInThread).start();
         factory.newThread(commOutThread).start();
+
+        classToConsumerMap = new HashMap<>();
+        classToConsumerMap.put(NewMsg.class, o -> handleNewMsg((NewMsg) o));
+        classToConsumerMap.put(Init.class, o -> handleInit((Init) o));
+        classToConsumerMap.put(EndConnectionBarrelMsg.class, o -> handleEndCommunication((EndConnectionBarrelMsg) o));
     }
 
-    public void send(Msg msg) {
-        commOutThread.queue.add(msg);
-    }
-}
-
-class CommInThread implements Runnable {
-
-    private final ObjectInputStream in;
-    private final ChatClient chatClient;
-
-    CommInThread(ChatClient chatClient, ObjectInputStream in) {
-        this.in = in;
-        this.chatClient = chatClient;
+    private void handle(Object barrelMsg) {
+        classToConsumerMap.get(barrelMsg.getClass()).accept(barrelMsg);
     }
 
-    @Override
-    public void run() {
-        try {
 
-            Object recivedObject;
+    private void handleNewMsg(NewMsg msg){
+        SocketServer.sockets.stream()
+                //.filter(obj -> !Objects.equals(obj, this))
+                .forEach(socketRequest -> {
+                    socketRequest.send(msg);
+                });
+    }
 
-            while ((recivedObject = in.readObject()) != null) {
+    private void handleInit(Init msg){
+        System.out.println("Received: Init " + msg.getLogin());
+        SocketServer.users.add(msg.getLogin());
+        send(SocketServer.getUsers());
+    }
 
+    private void handleEndCommunication(EndConnectionBarrelMsg msg){
+        System.out.println("End conn");
+        stopConnection();
+    }
 
-                Logger.info("New MSG");
-                if (recivedObject instanceof TestMsg1 t) {
-                    System.out.println("Received: TestMsg1 " + t.getText());
-                    SocketServer.sockets.stream()
-                            .filter(obj -> !Objects.equals(obj, this))
-                            .forEach(socketRequest -> {
-                                socketRequest.send(t);
-                            });
-                }
+    private Map<Class, Consumer> classToConsumerMap;
 
-                if (recivedObject instanceof TestMsg2 t) {
-                    System.out.println("Received: TestMsg2 " + t.getText());
-                    SocketServer.sockets.stream()
-                            .filter(obj -> !Objects.equals(obj, this))
-                            .forEach(socketRequest -> {
-                                socketRequest.send(t);
-                            });
-                }
+    public void stopConnection() {
 
-                if (recivedObject instanceof Init t) {
-                    System.out.println("Received: Init " + t.getLogin());
-                    SocketServer.users.add(t.getLogin());
-                    chatClient.send(SocketServer.getUsers());
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        try (
+                Socket s = socket;
+                InputStream i = in;
+                OutputStream o = out;
+        ) {
+            send(new EndConnectionBarrelMsg());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
-}
 
-class CommOutThread implements Runnable {
-
-    private final ObjectOutputStream out;
-    public SynchronousQueue<Msg> queue = new SynchronousQueue<Msg>();
-
-    CommOutThread(ObjectOutputStream out) {
-        this.out = out;
-    }
-
-    @Override
-    public void run() {
-
-        while (true) {
-            try {
-                Msg msg = queue.take();
-
-                out.writeObject(msg);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+    public void send(BarrelMsg barrelMsg) {
+        commOutThread.queue.add(barrelMsg);
     }
 }

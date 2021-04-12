@@ -1,16 +1,15 @@
 package pl.horazon.fx;
 
-import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import pl.horazon.fx.events.AppClose;
+import pl.horazon.fx.events.BarrelEventBus;
+
 import java.io.File;
 import java.io.InputStream;
 import java.net.URISyntaxException;
@@ -26,14 +25,13 @@ public class Main extends Application{
         launch(args);
     }
 
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         ResourceBundle resourceBundle = ResourceBundle.getBundle("bundles.MyBundle", new Locale("en", "EN"));
 
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setResources(resourceBundle);
-        Parent root = fxmlLoader.load(getClass().getResource("/fxml/main2.fxml"),resourceBundle);
+        Parent root = fxmlLoader.load(getClass().getResource("/fxml/main.fxml"),resourceBundle);
         //Pane pane = (BorderPane) fxmlLoader.load(this.getClass().getResource("MyView.fxml").openStream());
 
         //Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("test/main.fxml").toURI().toURL());
@@ -41,6 +39,12 @@ public class Main extends Application{
         primaryStage.setTitle("Registration Form FXML Application");
         primaryStage.setScene(new Scene(root, 800, 500));
         primaryStage.show();
+
+        primaryStage.getScene().getWindow()
+                .addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, event -> {
+                    BarrelEventBus.post(new AppClose());
+                });
+
     }
 
     private File getFileFromResource(String fileName) throws URISyntaxException {
