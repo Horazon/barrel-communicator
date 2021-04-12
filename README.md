@@ -5,3 +5,4 @@
 * tinylog lib
 * java 9 modules idea
 * JavaFx
+* versions-maven-plugin
