@@ -4,7 +4,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane stylesheets="@../css/main.css" fx:controller="pl.horazon.fx.MainControll"
+<AnchorPane stylesheets="@../css/main.css" fx:controller="pl.horazon.fx.controllers.MainControll"
             xmlns:fx="http://javafx.com/fxml">
 
     <BorderPane styleClass="BorderPane" AnchorPane.bottomAnchor="0.0"
@@ -14,32 +14,15 @@
         </top>
 
         <center>
-            <VBox >
-                <ListView fx:id="fxListMsg"/>
-
-                <GridPane>
-                    <TextField fx:id="fxTxtMsg" GridPane.columnIndex="0"/>
-                    <Button fx:id="fxBtnSend" text="%main.btn.send.txt" GridPane.columnIndex="1"
-                            onAction="#onClickSend"/>
-
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="ALWAYS"/>
-                        <ColumnConstraints hgrow="NEVER"/>
-                    </columnConstraints>
-                </GridPane>
-            </VBox>
+            <fx:include source="msg-panel.fxml"/>
         </center>
 
-        <bottom>
-            <HBox>
-                <Label text="statusbar"/>
-            </HBox>
-        </bottom>
-
         <right>
-            <VBox>
-                <ListView fx:id="fxListUsers"/>
-            </VBox>
+            <fx:include source="user-list.fxml"/>
         </right>
+
+        <bottom>
+            <fx:include source="type-send-bar.fxml" />
+        </bottom>
     </BorderPane>
 </AnchorPane>

@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class User extends Msg{
+public class User extends BarrelMsg {
     private Long id;
     private String login;
 }
