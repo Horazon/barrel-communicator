@@ -2,15 +2,12 @@ package pl.horazon.client;
 
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import org.apache.commons.lang3.RandomStringUtils;
-import pl.horazon.barrel.common.pojo.Init;
 import pl.horazon.barrel.common.pojo.BarrelMsg;
 import pl.horazon.barrel.common.thread.CommInThread;
 import pl.horazon.barrel.common.thread.CommOutThread;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.function.Consumer;
 
@@ -40,8 +37,6 @@ public class SocketClient {
         commInThread = new CommInThread<BarrelMsg>(in, this::handle);
 
         factory.newThread(commInThread).start();
-
-        this.send((new Init("login_" + RandomStringUtils.randomAlphabetic(5))));
     }
 
     private void handle(BarrelMsg barrelMsg) {

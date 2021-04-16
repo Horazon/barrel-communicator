@@ -17,11 +17,15 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class Main extends Application{
+public class Main extends Application {
 
     public TextArea fxTestArea;
 
     public static void main(String[] args) {
+
+        BarrelEventBus.init();
+        MsgProcessor.init();
+
         launch(args);
     }
 
@@ -31,7 +35,7 @@ public class Main extends Application{
 
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setResources(resourceBundle);
-        Parent root = fxmlLoader.load(getClass().getResource("/fxml/main.fxml"),resourceBundle);
+        Parent root = fxmlLoader.load(getClass().getResource("/fxml/main.fxml"), resourceBundle);
         //Pane pane = (BorderPane) fxmlLoader.load(this.getClass().getResource("MyView.fxml").openStream());
 
         //Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("test/main.fxml").toURI().toURL());
@@ -44,7 +48,6 @@ public class Main extends Application{
                 .addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, event -> {
                     BarrelEventBus.post(new AppClose());
                 });
-
     }
 
     private File getFileFromResource(String fileName) throws URISyntaxException {

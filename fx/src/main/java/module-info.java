@@ -5,6 +5,8 @@ module fx {
     requires client;
     requires common;
     requires lombok;
+    requires org.apache.commons.lang3;
+    requires org.tinylog.api;
 
 
     opens pl.horazon.fx to javafx.fxml;

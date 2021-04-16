@@ -3,18 +3,19 @@ package pl.horazon.barrel.common.thread;
 import pl.horazon.barrel.common.pojo.BarrelMsg;
 
 import java.io.ObjectOutputStream;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 
 public class CommOutThread implements Runnable {
 
     private final ObjectOutputStream out;
-    public SynchronousQueue<BarrelMsg> queue = new SynchronousQueue<BarrelMsg>();
+    public ArrayBlockingQueue<BarrelMsg> queue = new ArrayBlockingQueue<BarrelMsg>(10);
 
     public CommOutThread(ObjectOutputStream out) {
         this.out = out;
     }
 
-    public SynchronousQueue<BarrelMsg> getQueue() {
+    public ArrayBlockingQueue<BarrelMsg> getQueue() {
         return queue;
     }
 

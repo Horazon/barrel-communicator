@@ -1,8 +1,8 @@
 package pl.horazon.server;
 
 import org.tinylog.Logger;
-import pl.horazon.barrel.common.pojo.User;
-import pl.horazon.barrel.common.pojo.UserList;
+import pl.horazon.barrel.common.pojo.system.User;
+import pl.horazon.barrel.common.pojo.system.UserList;
 import pl.horazon.server.handle.ChatClient;
 
 import java.io.IOException;

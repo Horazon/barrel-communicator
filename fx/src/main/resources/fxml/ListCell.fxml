@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane fx:id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+          xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" hgap="5">
+    <columnConstraints>
+        <ColumnConstraints halignment="LEFT" hgrow="ALWAYS"/>
+        <ColumnConstraints halignment="LEFT" hgrow="ALWAYS"/>
+    </columnConstraints>
+    <children>
+        <Label fx:id="fxLabelUserLogin" text="User" GridPane.columnIndex="1" />
+        <Label fx:id="fxLabelUserMsg" text="MSG" GridPane.columnIndex="2" />
+    </children>
+</GridPane>
