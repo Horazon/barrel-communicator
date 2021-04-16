@@ -1,7 +1,7 @@
 package pl.horazon.fx.controllers;
 
 import javafx.fxml.Initializable;
-import pl.horazon.fx.ClientProxy;
+import pl.horazon.fx.service.ClientProxy;
 import pl.horazon.fx.UserContext;
 
 import java.net.URL;

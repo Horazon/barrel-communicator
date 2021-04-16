@@ -1,12 +1,12 @@
-package pl.horazon.fx;
+package pl.horazon.fx.service;
 
 import com.google.common.eventbus.Subscribe;
 import pl.horazon.barrel.common.pojo.BarrelMsg;
 import pl.horazon.barrel.common.pojo.system.EndConnectionBarrelMsg;
 import pl.horazon.barrel.common.pojo.system.Init;
 import pl.horazon.client.SocketClient;
-import pl.horazon.fx.events.AppClose;
-import pl.horazon.fx.events.BarrelEventBus;
+import pl.horazon.fx.UserContext;
+import pl.horazon.fx.events.AppCloseFxEvent;
 
 import java.io.IOException;
 
@@ -35,7 +35,7 @@ public class ClientProxy {
     }
 
     @Subscribe
-    public void endConnection(AppClose msg) {
+    public void endConnection(AppCloseFxEvent msg) {
         client.send(new EndConnectionBarrelMsg());
     }
 

@@ -14,4 +14,6 @@ module fx {
     exports pl.horazon.fx;
     exports pl.horazon.fx.controllers;
     opens pl.horazon.fx.controllers to javafx.fxml;
+    exports pl.horazon.fx.service;
+    opens pl.horazon.fx.service to javafx.fxml;
 }

@@ -7,8 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import pl.horazon.fx.events.AppClose;
-import pl.horazon.fx.events.BarrelEventBus;
+import pl.horazon.fx.events.AppCloseFxEvent;
+import pl.horazon.fx.service.BarrelEventBus;
+import pl.horazon.fx.service.MsgProcessor;
 
 import java.io.File;
 import java.io.InputStream;
@@ -46,7 +47,7 @@ public class Main extends Application {
 
         primaryStage.getScene().getWindow()
                 .addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, event -> {
-                    BarrelEventBus.post(new AppClose());
+                    BarrelEventBus.post(new AppCloseFxEvent());
                 });
     }
 

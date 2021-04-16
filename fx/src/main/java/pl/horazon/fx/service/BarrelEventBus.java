@@ -1,4 +1,4 @@
-package pl.horazon.fx.events;
+package pl.horazon.fx.service;
 
 import com.google.common.eventbus.EventBus;
 import org.tinylog.Logger;

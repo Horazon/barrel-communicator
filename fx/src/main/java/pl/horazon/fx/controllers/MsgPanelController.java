@@ -2,14 +2,12 @@ package pl.horazon.fx.controllers;
 
 import com.google.common.eventbus.Subscribe;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
-import javafx.scene.layout.VBox;
 import pl.horazon.barrel.common.pojo.domain.GroupChatMsg;
-import pl.horazon.fx.events.BarrelEventBus;
+import pl.horazon.fx.service.BarrelEventBus;
 
 import java.net.URL;
 import java.util.ResourceBundle;

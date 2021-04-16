@@ -5,7 +5,7 @@ import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import pl.horazon.barrel.common.pojo.system.UserList;
-import pl.horazon.fx.events.BarrelEventBus;
+import pl.horazon.fx.service.BarrelEventBus;
 
 import java.net.URL;
 import java.util.ResourceBundle;

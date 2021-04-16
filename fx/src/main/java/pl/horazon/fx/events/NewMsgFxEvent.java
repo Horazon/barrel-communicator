@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class NewTxtMsg {
+public class NewMsgFxEvent {
     private String msg;
 }

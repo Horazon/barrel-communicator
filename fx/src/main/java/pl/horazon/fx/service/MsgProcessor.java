@@ -1,10 +1,10 @@
-package pl.horazon.fx;
+package pl.horazon.fx.service;
 
 import com.google.common.eventbus.Subscribe;
 import org.tinylog.Logger;
 import pl.horazon.barrel.common.pojo.domain.GroupChatMsg;
-import pl.horazon.fx.events.BarrelEventBus;
-import pl.horazon.fx.events.NewTxtMsg;
+import pl.horazon.fx.UserContext;
+import pl.horazon.fx.events.NewMsgFxEvent;
 
 public class MsgProcessor {
     private static MsgProcessor msgProcessor;
@@ -24,7 +24,7 @@ public class MsgProcessor {
     }
 
     @Subscribe
-    public void stringEvent(NewTxtMsg event) {
+    public void stringEvent(NewMsgFxEvent event) {
 
         GroupChatMsg msg = new GroupChatMsg(UserContext.login, event.getMsg());
 
