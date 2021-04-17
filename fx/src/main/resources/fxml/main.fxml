@@ -20,9 +20,5 @@
         <right>
             <fx:include source="user-list.fxml"/>
         </right>
-
-        <bottom>
-            <fx:include source="type-send-bar.fxml" />
-        </bottom>
     </BorderPane>
 </AnchorPane>

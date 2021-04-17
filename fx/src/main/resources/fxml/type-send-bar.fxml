@@ -13,9 +13,4 @@
         <TextField fx:id="fxTxtMsg" HBox.hgrow="ALWAYS"/>
         <Button fx:id="fxBtnSend" text="%main.btn.send.txt" GridPane.columnIndex="1"
                 onAction="#onClickSend"/>
-
-
-    <padding>
-        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-    </padding>
 </HBox>
