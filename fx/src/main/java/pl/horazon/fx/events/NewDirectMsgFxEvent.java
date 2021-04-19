@@ -8,4 +8,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class NewDirectMsgFxEvent {
     private String msg;
+    private String to;
 }

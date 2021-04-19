@@ -1,6 +1,7 @@
 package pl.horazon.fx.service;
 
 import com.google.common.eventbus.Subscribe;
+import javafx.application.Platform;
 import pl.horazon.barrel.common.pojo.BarrelMsg;
 import pl.horazon.barrel.common.pojo.system.EndConnectionBarrelMsg;
 import pl.horazon.barrel.common.pojo.system.Init;
@@ -53,7 +54,7 @@ public class ClientProxy {
     }
 
     private void post(BarrelMsg barrelMsg) {
-        BarrelEventBus.post(barrelMsg);
+        Platform.runLater(() -> BarrelEventBus.post(barrelMsg));
     }
 
     public void init(String login){

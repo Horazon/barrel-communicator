@@ -44,17 +44,17 @@ public class MsgPanelController implements Initializable {
     @Subscribe
     public void directChatMsg(DirectChatMsg msg) {
 
-        // FIXME: ugly as hell
-        Platform.runLater(() -> ((ChatTabController)(tabPane.getTabs().get(1).getContent())).newDirectChatMsg(msg));
+        chats.stream()
+                .filter(c -> c.getLogin().equals(msg.getFrom()))
+                .forEach(c -> c.newDirectChatMsg(msg));
     }
 
     @Subscribe
     public void newDirectChatFxEvent(NewDirectChatFxEvent msg) {
         ChatTabController newChat = new ChatTabController(false);
-
-        Tab tab1 = new Tab("Planes", newChat);
+        newChat.setLogin(msg.getLogin());
 
         chats.add(newChat);
-        tabPane.getTabs().add(tab1);
+        tabPane.getTabs().add(newChat);
     }
 }

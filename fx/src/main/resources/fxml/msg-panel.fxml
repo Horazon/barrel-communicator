@@ -9,9 +9,7 @@
          xmlns="http://javafx.com/javafx/8.0.40"
          xmlns:fx="http://www.w3.org/2001/XInclude">
     <tabs>
-        <Tab fx:id="fxMainChatTab" text="FooTab">
-            <ChatTabController fx:id="fxMainChatTabController" isMain="true" showPopupTriggerButton="false"/>
-        </Tab>
+        <ChatTabController fx:id="fxMainChatTabController" isMain="true" text="General"/>
     </tabs>
 
     <padding>

@@ -7,7 +7,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
 import javafx.scene.layout.VBox;
+import lombok.Data;
+import lombok.Getter;
 import pl.horazon.barrel.common.pojo.domain.ChatMsg;
 import pl.horazon.barrel.common.pojo.domain.DirectChatMsg;
 import pl.horazon.barrel.common.pojo.domain.GroupChatMsg;
@@ -19,7 +22,7 @@ import pl.horazon.fx.util.FXMLUtils;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ChatTabController extends VBox implements Initializable {
+public class ChatTabController extends Tab implements Initializable {
     public ListView fxListMsg;
     private ObservableList<ChatMsg> studentObservableList;
 
@@ -27,12 +30,24 @@ public class ChatTabController extends VBox implements Initializable {
 
     private boolean isMain;
 
+
+    private String login;
+
     /*
     * https://stackoverflow.com/questions/41595035/set-custom-fxml-properties-as-parameters-for-custom-javafx-component
     * */
     public ChatTabController(@NamedArg("isMain") Boolean isMain) {
         this.isMain = isMain;
         FXMLUtils.loadFXML(this, "/fxml/chat-tab.fxml");
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+        setText(login);
+    }
+
+    public String getLogin() {
+        return login;
     }
 
     @Override
@@ -51,7 +66,7 @@ public class ChatTabController extends VBox implements Initializable {
         if(isMain)
             BarrelEventBus.post(new NewMsgFxEvent(txt));
         else
-            BarrelEventBus.post(new NewDirectMsgFxEvent(txt));
+            BarrelEventBus.post(new NewDirectMsgFxEvent(txt, login));
     }
 
     public void newMsg(GroupChatMsg msg) {

@@ -36,7 +36,7 @@ public class MsgProcessor {
     @Subscribe
     public void stringEvent(NewDirectMsgFxEvent event) {
 
-        DirectChatMsg msg = new DirectChatMsg(UserContext.login, "null", event.getMsg());
+        DirectChatMsg msg = new DirectChatMsg(UserContext.login, event.getTo(), event.getMsg());
 
         ClientProxy.getInstance().send(msg);
     }

@@ -3,20 +3,23 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<fx:root type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx"
-         xmlns:fx="http://javafx.com/fxml" spacing="5">
 
-    <ListView fx:id="fxListMsg" HBox.hgrow="ALWAYS">
-        <placeholder>
-            <Label text="Nothing found"/>
-        </placeholder>
-    </ListView>
+<fx:root type="javafx.scene.control.Tab" xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml">
+    <VBox>
+        <ListView fx:id="fxListMsg" HBox.hgrow="ALWAYS">
+            <placeholder>
+                <Label text="Nothing found"/>
+            </placeholder>
+        </ListView>
 
-    <fx:include fx:id="typeSendBar" source="type-send-bar.fxml"/>
+        <fx:include fx:id="typeSendBar" source="type-send-bar.fxml"/>
 
-    <padding>
-        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-    </padding>
+        <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+        </padding>
+    </VBox>
 </fx:root>
