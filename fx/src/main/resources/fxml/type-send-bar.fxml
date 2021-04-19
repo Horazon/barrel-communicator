@@ -6,11 +6,11 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.geometry.Insets?>
-<HBox xmlns="http://javafx.com/javafx"
+<HBox xmlns="http://javafx.com/javafx" stylesheets="@../css/main.css"
       xmlns:fx="http://javafx.com/fxml" spacing="5"
       fx:controller="pl.horazon.fx.controllers.TypeSendBarController">
 
         <TextField fx:id="fxTxtMsg" HBox.hgrow="ALWAYS"/>
         <Button fx:id="fxBtnSend" text="%main.btn.send.txt" GridPane.columnIndex="1"
-                onAction="#onClickSend"/>
+                onAction="#onClickSend" styleClass="icon-button"/>
 </HBox>

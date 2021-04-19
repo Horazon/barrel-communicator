@@ -3,6 +3,7 @@ package pl.horazon.server.handle;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.tinylog.Logger;
 import pl.horazon.barrel.common.pojo.*;
+import pl.horazon.barrel.common.pojo.domain.DirectChatMsg;
 import pl.horazon.barrel.common.pojo.domain.GroupChatMsg;
 import pl.horazon.barrel.common.pojo.system.EndConnectionBarrelMsg;
 import pl.horazon.barrel.common.pojo.system.Init;
@@ -48,6 +49,7 @@ public class ChatClient {
 
         classToConsumerMap = new HashMap<>();
         classToConsumerMap.put(GroupChatMsg.class, o -> NewMsgHandler.handleNewMsg((GroupChatMsg) o));
+        classToConsumerMap.put(DirectChatMsg.class, o -> NewMsgHandler.handleDirectMsg((DirectChatMsg) o));
         classToConsumerMap.put(Init.class, o -> handleInit((Init) o));
         classToConsumerMap.put(EndConnectionBarrelMsg.class, o -> handleEndCommunication((EndConnectionBarrelMsg) o));
     }

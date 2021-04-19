@@ -9,9 +9,8 @@ import pl.horazon.barrel.common.pojo.enums.MsgSource;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class GroupChatMsg extends ChatMsg {
-
-    public GroupChatMsg(String from, String content) {
-        super(from, null, MsgSource.USER, MsgDest.ALL, content);
+public class DirectChatMsg extends ChatMsg{
+    public DirectChatMsg(String from, String to, String content) {
+        super(from, to, MsgSource.USER, MsgDest.USER, content);
     }
 }

@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.GridPane;
+import pl.horazon.barrel.common.pojo.domain.ChatMsg;
 import pl.horazon.barrel.common.pojo.domain.GroupChatMsg;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ import java.io.IOException;
  *
  */
 
-public class StudentListViewCell extends ListCell<GroupChatMsg> {
+public class StudentListViewCell extends ListCell<ChatMsg> {
 
     @FXML
     private Label fxLabelUserLogin;
@@ -29,7 +30,7 @@ public class StudentListViewCell extends ListCell<GroupChatMsg> {
     private FXMLLoader mLLoader;
 
     @Override
-    protected void updateItem(GroupChatMsg student, boolean empty) {
+    protected void updateItem(ChatMsg student, boolean empty) {
         super.updateItem(student, empty);
 
         if(empty || student == null) {

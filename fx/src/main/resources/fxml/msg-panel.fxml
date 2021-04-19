@@ -10,7 +10,7 @@
          xmlns:fx="http://www.w3.org/2001/XInclude">
     <tabs>
         <Tab fx:id="fxMainChatTab" text="FooTab">
-            <ChatTabController fx:id="fxMainChatTabController"/>
+            <ChatTabController fx:id="fxMainChatTabController" isMain="true" showPopupTriggerButton="false"/>
         </Tab>
     </tabs>
 

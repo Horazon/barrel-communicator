@@ -14,4 +14,6 @@ public abstract class ChatMsg extends BarrelMsg {
     private final String to;
     private final MsgSource source;
     private final MsgDest dest;
+    private final String content;
+
 }
